@@ -279,7 +279,7 @@ class CLIFormatter:
 @click.option("--verbose", "-v", is_flag=True, help="Modo verboso")
 @click.option("--json", "-j", is_flag=True, help="Salida en formato JSON")
 @click.option("--config", "-c", help="Archivo de configuración")
-def cli(verbose: bool, json_output: bool, config: Optional[str] = None):
+def cli(verbose: bool, json: bool, config: Optional[str] = None):
     """
     Hetzner MCP Connection - CLI para gestionar Hetzner Cloud en español
     
@@ -296,7 +296,7 @@ def cli(verbose: bool, json_output: bool, config: Optional[str] = None):
         # TODO: Cargar configuración del archivo
     
     # Guardar estado global
-    cli.ctx.obj = {"verbose": verbose, "json": json_output}
+    cli.ctx.obj = {"verbose": verbose, "json": json}
 
 
 # =============================================================================
