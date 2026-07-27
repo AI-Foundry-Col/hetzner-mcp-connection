@@ -9,7 +9,7 @@ Sigue los principios NUPP:
 
 from typing import Any, Dict, List, Optional, Union
 
-from hetzner_mcp.core.config import settings
+from hetzner_mcp.core.config import get_settings
 from hetzner_mcp.core.exceptions import HetznerSafeModeError
 from hetzner_mcp.core.models import (
     Action,
@@ -32,8 +32,8 @@ class ServerAPI:
             client: Instancia del cliente principal de Hetzner
         """
         self.client = client
-        self.safe_mode = settings.safe_mode
-        self.protected_servers = set(settings.protected_servers)
+        self.safe_mode = get_settings().safe_mode
+        self.protected_servers = set(get_settings().protected_servers)
 
     def _check_safe_mode(self, operation: str) -> None:
         """Verificar si la operación está permitida en modo seguro."""
@@ -52,7 +52,7 @@ class ServerAPI:
         label_selector: Optional[str] = None,
         status: Optional[str] = None,
         page: int = 1,
-        per_page: int = settings.page_size,
+        per_page: int = get_settings().page_size,
     ) -> ServerListResponse:
         """
         Listar servidores.

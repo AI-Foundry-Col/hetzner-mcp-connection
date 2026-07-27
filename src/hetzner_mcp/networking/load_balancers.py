@@ -4,7 +4,7 @@ API de Load Balancers de Hetzner Cloud
 
 from typing import Any, Dict, List, Optional
 
-from hetzner_mcp.core.config import settings
+from hetzner_mcp.core.config import get_settings
 from hetzner_mcp.core.exceptions import HetznerSafeModeError
 from hetzner_mcp.core.models import (
     Action,
@@ -26,7 +26,7 @@ class LoadBalancerAPI:
             client: Instancia del cliente principal de Hetzner
         """
         self.client = client
-        self.safe_mode = settings.safe_mode
+        self.safe_mode = get_settings().safe_mode
 
     def _check_safe_mode(self, operation: str) -> None:
         """Verificar si la operación está permitida en modo seguro."""
@@ -39,7 +39,7 @@ class LoadBalancerAPI:
         name: Optional[str] = None,
         label_selector: Optional[str] = None,
         page: int = 1,
-        per_page: int = settings.page_size,
+        per_page: int = get_settings().page_size,
     ) -> LoadBalancerListResponse:
         """
         Listar load balancers.

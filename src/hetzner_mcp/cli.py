@@ -20,12 +20,12 @@ from rich.text import Text
 from rich import box
 
 from hetzner_mcp.core.client import HetznerClient
-from hetzner_mcp.core.config import settings, reset_settings
+from hetzner_mcp.core.config import get_settings, reset_settings
 from hetzner_mcp.natural_language.processor import NaturalLanguageProcessor
 
 # Configurar logging
 logging.basicConfig(
-    level=getattr(logging, settings.log_level, logging.INFO),
+    level=getattr(logging, get_settings().log_level, logging.INFO),
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
@@ -1206,14 +1206,14 @@ def config():
     """Mostrar configuración actual."""
     console.print(Panel(
         f"[bold green]Configuración Actual[/bold green]\n\n"
-        f"API URL: {settings.hetzner_api_url}\n"
-        f"Timeout: {settings.request_timeout}s\n"
-        f"Max Retries: {settings.max_retries}\n"
-        f"Retry Delay: {settings.retry_delay}s\n"
-        f"Log Level: {settings.log_level}\n"
-        f"Page Size: {settings.page_size}\n"
-        f"Safe Mode: {settings.safe_mode}\n"
-        f"Protected Servers: {settings.protected_servers}",
+        f"API URL: {get_settings().hetzner_api_url}\n"
+        f"Timeout: {get_settings().request_timeout}s\n"
+        f"Max Retries: {get_settings().max_retries}\n"
+        f"Retry Delay: {get_settings().retry_delay}s\n"
+        f"Log Level: {get_settings().log_level}\n"
+        f"Page Size: {get_settings().page_size}\n"
+        f"Safe Mode: {get_settings().safe_mode}\n"
+        f"Protected Servers: {get_settings().protected_servers}",
         title="Configuración",
         border_style="blue",
     ))

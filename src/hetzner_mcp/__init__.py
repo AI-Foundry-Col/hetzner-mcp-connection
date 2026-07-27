@@ -8,7 +8,7 @@ Basado en los principios NUPP de OMIMO: Open, Minimalist, Modular
 """
 
 from hetzner_mcp.core.client import HetznerClient
-from hetzner_mcp.core.config import settings
+from hetzner_mcp.core.config import get_settings
 from hetzner_mcp.core.exceptions import (
     HetznerAPIError,
     HetznerAuthenticationError,

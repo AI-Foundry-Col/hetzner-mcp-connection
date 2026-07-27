@@ -16,7 +16,7 @@ from typing import Any, Callable, Dict, List, Optional, TypeVar, Union
 import requests
 from tenacity import Retrying, stop_after_attempt, wait_exponential
 
-from hetzner_mcp.core.config import settings
+from hetzner_mcp.core.config import get_settings
 from hetzner_mcp.core.exceptions import (
     HetznerAPIError,
     HetznerAuthenticationError,
@@ -55,13 +55,13 @@ class HetznerClient:
             api_url: URL base de la API. Si no se proporciona,
                     se usará el de la configuración.
         """
-        self.api_token = api_token or settings.hetzner_api_token
-        self.api_url = api_url or settings.hetzner_api_url
-        self.timeout = settings.request_timeout
-        self.max_retries = settings.max_retries
-        self.retry_delay = settings.retry_delay
-        self.safe_mode = settings.safe_mode
-        self.protected_servers = set(settings.protected_servers)
+        self.api_token = api_token or get_settings().hetzner_api_token
+        self.api_url = api_url or get_settings().hetzner_api_url
+        self.timeout = get_settings().request_timeout
+        self.max_retries = get_settings().max_retries
+        self.retry_delay = get_settings().retry_delay
+        self.safe_mode = get_settings().safe_mode
+        self.protected_servers = set(get_settings().protected_servers)
         
         # Validar configuración
         if not self.api_token:
@@ -79,7 +79,7 @@ class HetznerClient:
 
     def _setup_logging(self) -> None:
         """Configurar el logging según la configuración."""
-        log_level = getattr(logging, settings.log_level, logging.INFO)
+        log_level = getattr(logging, get_settings().log_level, logging.INFO)
         logging.basicConfig(
             level=log_level,
             format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -128,8 +128,8 @@ class HetznerClient:
         @wraps(func)
         def wrapper(*args, **kwargs):
             retrying = Retrying(
-                stop=stop_after_attempt(settings.max_retries),
-                wait=wait_exponential(multiplier=1, min=settings.retry_delay, max=10),
+                stop=stop_after_attempt(get_settings().max_retries),
+                wait=wait_exponential(multiplier=1, min=get_settings().retry_delay, max=10),
                 retry=(
                     lambda e: isinstance(e, HetznerRateLimitError)
                     and getattr(e, "retry_after", 0) > 0
@@ -143,7 +143,7 @@ class HetznerClient:
                 raise HetznerRateLimitError(
                     "Máximo de reintentos alcanzado",
                     retry_after=0,
-                    details={"attempts": settings.max_retries}
+                    details={"attempts": get_settings().max_retries}
                 )
         return wrapper
 
