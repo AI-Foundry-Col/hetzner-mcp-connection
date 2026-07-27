@@ -10,7 +10,7 @@ Sigue los principios NUPP:
 import json
 import logging
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 import click
 from rich.console import Console
