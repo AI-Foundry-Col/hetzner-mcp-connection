@@ -11,7 +11,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import Field, field_validator
+from pydantic import BaseModel, Field, field_validator
 from typing_extensions import TypedDict
 
 
@@ -851,10 +851,3 @@ class DatacenterListResponse(BaseModel):
 
     datacenters: List[Datacenter] = Field(default_factory=list)
     meta: Optional[Meta] = None
-
-
-# =============================================================================
-# Base Model for Pydantic
-# =============================================================================
-
-from pydantic import BaseModel
